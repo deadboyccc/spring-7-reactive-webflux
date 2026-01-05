@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.r2dbc.test.autoconfigure.DataR2dbcTest;
 import org.springframework.context.annotation.Import;
 import reactor.test.StepVerifier;
+import tools.jackson.databind.ObjectMapper;
 
 import java.math.BigDecimal;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -20,6 +21,14 @@ import static org.awaitility.Awaitility.await;
 class BeerRepositoryTest {
     @Autowired
     BeerRepository beerRepository;
+
+    @Test
+    void getDtoJson() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Beer beer = getTestBeer();
+        String json = objectMapper.writeValueAsString(beer);
+        log.debug("Json: {}", json);
+    }
 
     @Test
     void testSaveNewBeer() {
